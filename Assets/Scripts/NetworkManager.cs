@@ -33,6 +33,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject PlayerListPrefab;
     public GameObject PlayerListParent;
     public GameObject StartGameButton;
+    public Text GameModeText;
    
     [Header("Join Random Room Panel")]
     public GameObject JoinRandomRoomUIPanel;
@@ -41,9 +42,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     #region Unity Methods
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         ActivatePanel(LoginUIPanel.name);
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
     #endregion
 
@@ -117,6 +119,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LeaveRoom();
     }
+
+    public void OnStartGameButtonClicked()
+    {
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("gm"))
+        {
+            if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc"))     // racing game mode
+            {
+                PhotonNetwork.LoadLevel("RacingScene");
+            }
+            else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("dr"))    // death race mode
+            {
+                PhotonNetwork.LoadLevel("DeathRaceScene");
+            }
+        }
+    }
     #endregion
 
     #region Photon Callbacks
@@ -147,6 +164,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Debug.Log(gameModeName.ToString());
             RoomInfoText.text = "Room name: " + PhotonNetwork.CurrentRoom.Name + " " + PhotonNetwork.CurrentRoom.PlayerCount + " / " +
                 PhotonNetwork.CurrentRoom.MaxPlayers;
+
+            if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc"))
+            {
+                GameModeText.text = "Racing Mode";
+            }
+            else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("dr"))
+            {
+                GameModeText.text = "Death Race Mode";
+            }
         }
 
         if (playerListGameObjects == null)
