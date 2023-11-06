@@ -8,7 +8,6 @@ using Unity.VisualScripting;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-
     [Header("Login UI")]
     public GameObject LoginUIPanel;
     public InputField PlayerNameInput;

@@ -5,12 +5,17 @@ using Photon.Pun;
 
 public class PlayerSelection : MonoBehaviour
 {
-    public GameObject[] SelectablePlayers;
+    public GameObject[] rcSelectablePlayers;
+    public GameObject[] drSelectablePlayers;
 
     public int playerSelectionNumber;
 
+    private NetworkManager networkManager;
+
     private void Start()
     {
+        networkManager = GetComponent<NetworkManager>();
+
         playerSelectionNumber = 0;
 
         ActivatePlayer(playerSelectionNumber);
@@ -18,12 +23,25 @@ public class PlayerSelection : MonoBehaviour
 
     private void ActivatePlayer(int x)
     {
-        foreach (GameObject go in SelectablePlayers)
+        if (networkManager.GameMode != null)
         {
-            go.SetActive(false);
+            if (networkManager.GameMode == "rc")
+            {
+                foreach (GameObject go in rcSelectablePlayers)
+                {
+                    go.SetActive(false);
+                }
+                rcSelectablePlayers[x].SetActive(true);
+            }
+            else if (networkManager.GameMode == "dr")
+            {
+                foreach (GameObject go in drSelectablePlayers)
+                {
+                    go.SetActive(false);
+                }
+                drSelectablePlayers[x].SetActive(true);
+            }
         }
-
-        SelectablePlayers[x].SetActive(true);
 
         // Setting the player selection for the vehicle
         ExitGames.Client.Photon.Hashtable playerSelectionProperties = new ExitGames.Client.Photon.Hashtable() { {Constants.PLAYER_SELECTION_NUMBER, playerSelectionNumber} };
@@ -34,7 +52,7 @@ public class PlayerSelection : MonoBehaviour
     {
         playerSelectionNumber++;
 
-        if (playerSelectionNumber >= SelectablePlayers.Length)
+        if (playerSelectionNumber >= rcSelectablePlayers.Length)
         {
             playerSelectionNumber = 0;
         }
@@ -48,7 +66,7 @@ public class PlayerSelection : MonoBehaviour
 
         if (playerSelectionNumber < 0)
         {
-            playerSelectionNumber = SelectablePlayers.Length - 1;
+            playerSelectionNumber = rcSelectablePlayers.Length - 1;
         }
 
         ActivatePlayer(playerSelectionNumber);
