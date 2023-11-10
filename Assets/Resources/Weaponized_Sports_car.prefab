@@ -376,6 +376,14 @@ MonoBehaviour:
   startingHealth: 100
   healthBar: {fileID: 4215841636172593082}
   healthUIObject: {fileID: 3018395596710501154}
+  visibleGameObjects:
+  - {fileID: 6228651107247709759}
+  - {fileID: 7747284062912223901}
+  - {fileID: 7361553431781986352}
+  - {fileID: 788034801017777958}
+  - {fileID: 2145875828918739875}
+  - {fileID: 8124405714420705185}
+  - {fileID: 328424502200213858}
 --- !u!1 &6228651107247709759
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,6 +644,7 @@ GameObject:
   - component: {fileID: 2263102457944614819}
   - component: {fileID: 6212566616369479270}
   - component: {fileID: 6245583923777816373}
+  - component: {fileID: 3048451695910314802}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -717,6 +726,22 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8744858007794905806}
   m_Enabled: 1
+--- !u!114 &3048451695910314802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8744858007794905806}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d70648f94fec004eb104f6aba65dfed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 25
+  flyingSpeed: 20
+  rotationSpeed: 200
+  currentSpeed: 0
 --- !u!1001 &328424502200116792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -799,7 +824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8764961456448466800, guid: ba434859afb1c4229aaede0cc81877b5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 500
+      value: 800
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -809,6 +834,11 @@ PrefabInstance:
 --- !u!4 &328424502199991554 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400186, guid: ba434859afb1c4229aaede0cc81877b5, type: 3}
+  m_PrefabInstance: {fileID: 328424502200116792}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &328424502200213858 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100186, guid: ba434859afb1c4229aaede0cc81877b5, type: 3}
   m_PrefabInstance: {fileID: 328424502200116792}
   m_PrefabAsset: {fileID: 0}
 --- !u!120 &6284782606857428597 stripped
@@ -905,6 +935,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8124405714420705185 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4323449668028846629, guid: 644798a759775ac4dad4b9128c89417d, type: 3}
+  m_PrefabInstance: {fileID: 5422427834105787780}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8951385710275862319 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3997472994502961835, guid: 644798a759775ac4dad4b9128c89417d, type: 3}
