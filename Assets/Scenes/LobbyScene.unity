@@ -3449,6 +3449,14 @@ MonoBehaviour:
   PlayerListParent: {fileID: 244169819}
   StartGameButton: {fileID: 1279214256}
   GameModeText: {fileID: 332149305}
+  SelectablePlayers:
+  - {fileID: 1833322808}
+  - {fileID: 1736180112}
+  - {fileID: 299006209}
+  DeathRacingPlayers:
+  - {fileID: 11400000, guid: 4d41951f19675ca4fb1024b0e9177d67, type: 2}
+  - {fileID: 11400000, guid: a71038b021d6da34b8065c43bbc41b1d, type: 2}
+  - {fileID: 11400000, guid: 203a8c334c776b8438bafbe073faf12f, type: 2}
   JoinRandomRoomUIPanel: {fileID: 1438516555}
 --- !u!4 &890988908
 Transform:

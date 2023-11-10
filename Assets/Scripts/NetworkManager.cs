@@ -33,6 +33,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject PlayerListParent;
     public GameObject StartGameButton;
     public Text GameModeText;
+    public GameObject[] SelectablePlayers;
+    public DeathRacingPlayer[] DeathRacingPlayers;
    
     [Header("Join Random Room Panel")]
     public GameObject JoinRandomRoomUIPanel;
@@ -171,6 +173,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("dr"))
             {
                 GameModeText.text = "Death Race Mode";
+
+                for (int i = 0; i < SelectablePlayers.Length; i++)
+                {
+                    SelectablePlayers[i].transform.Find("PlayerName").GetComponent<Text>().text = DeathRacingPlayers[i].name;
+                    SelectablePlayers[i].transform.Find("PlayerProperty").GetComponent<Text>().text = "Laser Damage: " + DeathRacingPlayers[i].laserDamage +
+                        "   Laser Fire Rate: " + DeathRacingPlayers[i].laserDamage + "   Cannon (Projectile) Damage: " + DeathRacingPlayers[i].projectileDamage
+                        + "   Cannon Fire Rate: " + DeathRacingPlayers[i].projectileFireRate + "   Projectile Speed: " + DeathRacingPlayers[i].projectileSpeed;
+                }
             }
         }
 
