@@ -12,6 +12,7 @@ public class DeathRacingGameManager : MonoBehaviourPunCallbacks
     public Transform[] startingPositions;
     public List<GameObject> players;
     public GameObject winnerTextUi;
+    public GameObject eliminatedPlayerTextUi;
 
     public static DeathRacingGameManager instance = null;
 
@@ -54,5 +55,16 @@ public class DeathRacingGameManager : MonoBehaviourPunCallbacks
         {
             players[0].GetComponent<PlayerHealth>().EndMatch();
         }
+    }
+
+    public void HideEliminationText()
+    {
+        StartCoroutine(EliminationTextTimer());
+    }
+
+    private IEnumerator EliminationTextTimer()
+    {
+        yield return new WaitForSeconds(3);
+        eliminatedPlayerTextUi.SetActive(false);
     }
 }

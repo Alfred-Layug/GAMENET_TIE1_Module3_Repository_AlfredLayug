@@ -18,31 +18,48 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
 
     public enum RaiseEventsCode
     {
-        WhoFinishedEventCode = 0
+        WhoWonEventCode = 0,
+        WhoGotEliminatedEventCode = 1
     }
 
     private void OnEnable()
     {
         PhotonNetwork.NetworkingClient.EventReceived += OnWinEvent;
+        PhotonNetwork.NetworkingClient.EventReceived += OnEliminatedEvent;
     }
 
     private void OnDisable()
     {
         PhotonNetwork.NetworkingClient.EventReceived -= OnWinEvent;
+        PhotonNetwork.NetworkingClient.EventReceived -= OnEliminatedEvent;
     }
 
     void OnWinEvent(EventData photonEvent)
     {
-        if (photonEvent.Code == (byte)RaiseEventsCode.WhoFinishedEventCode)
+        if (photonEvent.Code == (byte)RaiseEventsCode.WhoWonEventCode)
         {
             object[] data = (object[])photonEvent.CustomData;
 
             string nickNameOfWinner = (string)data[0];
-            int viewId = (int)data[1];
 
             GameObject winnerUiText = DeathRacingGameManager.instance.winnerTextUi;
             winnerUiText.SetActive(true);
             winnerUiText.GetComponent<TextMeshProUGUI>().text = nickNameOfWinner + " IS THE WINNER!";
+        }
+    }
+
+    void OnEliminatedEvent(EventData photonEvent)
+    {
+        if (photonEvent.Code == (byte)RaiseEventsCode.WhoGotEliminatedEventCode)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+
+            string nickNameOfEliminatedPlayer = (string)data[0];
+
+            GameObject eliminationUiText = DeathRacingGameManager.instance.eliminatedPlayerTextUi;
+            eliminationUiText.SetActive(true);
+            eliminationUiText.GetComponent<TextMeshProUGUI>().text = nickNameOfEliminatedPlayer + " HAS BEEN ELIMINATED!";
+            DeathRacingGameManager.instance.HideEliminationText();
         }
     }
 
@@ -78,9 +95,28 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         {
             go.SetActive(false);
         }
+
         GetComponent<BoxCollider>().enabled = false;
         GetComponent<VehicleShooting>().enabled = false;
         DeathRacingGameManager.instance.EliminatePlayer(this.gameObject);
+
+        string nickName = photonView.Owner.NickName;
+        int viewId = photonView.ViewID;
+
+        // event data
+        object[] data = new object[] { nickName, viewId };
+
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions
+        {
+            Receivers = ReceiverGroup.All,
+            CachingOption = EventCaching.AddToRoomCache
+        };
+
+        SendOptions sendOptions = new SendOptions
+        {
+            Reliability = false
+        };
+        PhotonNetwork.RaiseEvent((byte)RaiseEventsCode.WhoGotEliminatedEventCode, data, raiseEventOptions, sendOptions);
     }
 
     public void EndMatch()
@@ -101,6 +137,6 @@ public class PlayerHealth : MonoBehaviourPunCallbacks
         {
             Reliability = false
         };
-        PhotonNetwork.RaiseEvent((byte)RaiseEventsCode.WhoFinishedEventCode, data, raiseEventOptions, sendOptions);
+        PhotonNetwork.RaiseEvent((byte)RaiseEventsCode.WhoWonEventCode, data, raiseEventOptions, sendOptions);
     }
 }
